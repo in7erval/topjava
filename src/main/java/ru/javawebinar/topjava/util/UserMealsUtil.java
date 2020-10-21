@@ -33,12 +33,7 @@ public class UserMealsUtil {
 		List<UserMealWithExcess> filteredUserMealsWithExcesses = new ArrayList<>();
 		Map<LocalDate, Integer> sumCaloriesPerDay = new HashMap<>();
 
-		meals.forEach(meal -> {
-		    LocalDate currentDate = meal.getDateTime().toLocalDate();
-            int currentCaloriesPerDay = sumCaloriesPerDay.getOrDefault(currentDate, 0) + meal.getCalories();
-
-            sumCaloriesPerDay.put(currentDate, currentCaloriesPerDay);
-		});
+		meals.forEach(meal -> sumCaloriesPerDay.merge(meal.getDateTime().toLocalDate(), meal.getCalories(), Integer::sum));
 		meals.forEach(meal -> {
 		    LocalTime localTime = meal.getDateTime().toLocalTime();
 
@@ -50,7 +45,6 @@ public class UserMealsUtil {
                 filteredUserMealsWithExcesses.add(userMealWithExcess);
             }
         });
-
 		return filteredUserMealsWithExcesses;
 	}
 

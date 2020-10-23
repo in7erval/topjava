@@ -1,5 +1,6 @@
 <%@ page import="ru.javawebinar.topjava.model.MealTo" %>
 <%@ page import="java.util.List" %>
+<%@ page import="java.time.format.DateTimeFormatter" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -15,16 +16,17 @@
 <p><a href="addMeal" style="padding: 2px; margin-bottom: 5px;">Добавить новую запись</a></p>
 <div>
     <%
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         List<MealTo> meals = (List<MealTo>) request.getAttribute("mealsList");
         if (meals != null && !meals.isEmpty()) {
-            out.println("<div><table border=\"1\" cellpadding=\"10\"><tr><td>Дата</td><td>Описание</td><td>Калории</td><td></td></tr>");
+            out.println("<div><table border=\"1\" cellpadding=\"10\"><tr style=\"text-align:center;\"><td><b>Дата</b></td><td><b>Описание</b></td><td><b>Калории</b></td><td></td><td></td></tr>");
             for (MealTo meal : meals) {
-                String time = meal.getDateTime().toLocalDate() + " " + meal.getDateTime().toLocalTime().getHour() + ":" + meal.getDateTime().toLocalTime().getMinute();
                 out.println("<tr style=\"color:" + (meal.isExcess() ? "red" : "green") + ";\">");
-                out.println("<td>" + time + "</td>");
+                out.println("<td>" + meal.getDateTime().format(formatter) + "</td>");
                 out.println("<td>" + meal.getDescription() + "</td>");
                 out.println("<td>" + meal.getCalories() + "</td>");
                 out.println("<td><a href=\"meals?action=delete&id=" + meal.getId() +"\">delete</a></td>");
+                out.println("<td><a href=\"meals?action=update&id=" + meal.getId() +"\">update</a></td>");
                 out.println("</tr>");
             }
             out.println("</table></div>");

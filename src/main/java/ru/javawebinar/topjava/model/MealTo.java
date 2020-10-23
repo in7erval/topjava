@@ -35,9 +35,7 @@ public class MealTo {
         return description;
     }
 
-    public Integer getId() {
-        return id;
-    }
+    public Integer getId() {return id;}
 
     public boolean isExcess() {
         return excess;

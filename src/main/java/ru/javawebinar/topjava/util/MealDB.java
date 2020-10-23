@@ -31,9 +31,13 @@ public class MealDB implements DB<Meal> {
     @Override
     public void save(Meal meal) {
         int mealId = id.incrementAndGet();
-
-        meal.setId(mealId);
-        meals.put(mealId, meal);
+        if (meal.getId() == null) {
+            meal.setId(mealId);
+            meals.put(mealId, meal);
+        } else {
+            this.delete(meal.getId());
+            meals.put(meal.getId(), meal);
+        }
     }
 
     @Override

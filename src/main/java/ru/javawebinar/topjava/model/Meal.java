@@ -11,10 +11,18 @@ public class Meal {
 
     private final int calories;
 
+    public Meal(Integer id, LocalDateTime dateTime, String description, int calories) {
+        this.dateTime = dateTime;
+        this.description = description;
+        this.calories = calories;
+        this.id = id;
+    }
+
     public Meal(LocalDateTime dateTime, String description, int calories) {
         this.dateTime = dateTime;
         this.description = description;
         this.calories = calories;
+        this.id = null;
     }
 
     public void setId(int id) {

@@ -12,18 +12,20 @@
 <div>
     <h1>Список записей</h1>
 </div>
-<p><a href="/topjava/addMeal" style="padding: 2px; margin-bottom: 5px;">Добавить новую запись</a></p>
+<p><a href="addMeal" style="padding: 2px; margin-bottom: 5px;">Добавить новую запись</a></p>
 <div>
     <%
         List<MealTo> meals = (List<MealTo>) request.getAttribute("mealsList");
         if (meals != null && !meals.isEmpty()) {
-            out.println("<div><table border=\"1\" cellpadding=\"10\"><tr><td>Дата</td><td>Описание</td><td>Калории</td></tr>");
+            out.println("<div><table border=\"1\" cellpadding=\"10\"><tr><td>Дата</td><td>Описание</td><td>Калории</td><td></td></tr>");
             for (MealTo meal : meals) {
                 String time = meal.getDateTime().toLocalDate() + " " + meal.getDateTime().toLocalTime().getHour() + ":" + meal.getDateTime().toLocalTime().getMinute();
                 out.println("<tr style=\"color:" + (meal.isExcess() ? "red" : "green") + ";\">");
                 out.println("<td>" + time + "</td>");
                 out.println("<td>" + meal.getDescription() + "</td>");
-                out.println("<td>" + meal.getCalories() + "</td></tr>");
+                out.println("<td>" + meal.getCalories() + "</td>");
+                out.println("<td><a href=\"meals?action=delete&id=" + meal.getId() +"\">delete</a></td>");
+                out.println("</tr>");
             }
             out.println("</table></div>");
         } else out.println("<div><h2>Записей о еде ещё нет!</h2></div>");

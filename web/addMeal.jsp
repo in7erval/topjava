@@ -9,7 +9,7 @@
 </head>
 <body>
 <%
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
     Meal meal = (Meal) request.getAttribute("meal");
     String action = "Добавить";
     String dateTime = null;
@@ -34,7 +34,7 @@
         <fieldset style="width: 500px;">
             <legend>Информация о еде</legend>
             <label for="datetime">Дата и время:
-                <input required style="margin-left: 50px; margin-bottom: 10px;" type="datetime-local" name="datetime" id="datetime" value="<%out.print(dateTime == null ? LocalDateTime.now().format(formatter) : dateTime);%>"> (формат: 2020-10-10 18:18)<br/>
+                <input required style="margin-left: 50px; margin-bottom: 10px;" type="datetime-local" name="datetime" id="datetime" value="<%out.print(dateTime == null ? LocalDateTime.now().format(formatter) : dateTime);%>"> (формат: 2020-10-10T18:18)<br/>
             </label>
             <label for="description">Описание:
                 <input required style="margin-left: 72px; margin-bottom: 10px;" type="text" name="description" id="description" size="30" value="<%out.print(description == null ? "" : description);%>"><br/>

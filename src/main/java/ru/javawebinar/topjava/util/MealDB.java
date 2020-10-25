@@ -30,8 +30,8 @@ public class MealDB implements DB<Meal> {
 
     @Override
     public void save(Meal meal) {
-        int mealId = id.incrementAndGet();
         if (meal.getId() == null) {
+            int mealId = id.incrementAndGet();
             meal.setId(mealId);
             meals.put(mealId, meal);
         } else {

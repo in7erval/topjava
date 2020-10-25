@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class AddMealServlet extends HttpServlet {
-    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
     private final MealDB db = MealDB.getInstance();
 
     @Override
@@ -26,7 +26,8 @@ public class AddMealServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
         String description = req.getParameter("description").trim();
-        int calories = Integer.parseInt(req.getParameter("calories"));
+        String caloriesStr = req.getParameter("calories");
+        int calories = (caloriesStr != null) ? Integer.parseInt(caloriesStr) : 0;
         String localDateTimeStr = req.getParameter("datetime").trim();
         String id = req.getParameter("id");
         LocalDateTime localDateTime = LocalDateTime.parse(localDateTimeStr, formatter);

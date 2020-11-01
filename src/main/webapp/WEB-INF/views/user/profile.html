@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Профиль</title>
+</head>
+<body>
+<h1 th:text="${user.getName()}"></h1>
+<form accept-charset="UTF-8" th:action="@{/user}" th:method="POST" th:object="${user}">
+    <fieldset style="width: 500px;">
+        <label for="name">Ммя:</label>
+        <input type="text" id="name" required style="margin-left: 50px; margin-bottom: 10px;" th:field="*{name}" />
+        <br>
+        <label for="email">Электронная почта:</label>
+        <input type="text" id="email" required style="margin-left: 72px; margin-bottom: 10px;" th:field="*{email}"/>
+        <br>
+        <label for="password">Пароль:</label>
+        <input type="text" id="password" required style="margin-left: 30px; margin-bottom: 10px;" th:field="*{password}"/>
+        <br>
+        <label for="registerDate">Дата регистрации:</label>
+        <input readonly type="date" id="registerDate" required style="margin-left: 30px; margin-bottom: 10px;" th:field="*{registerDate}"/>
+        <input type="hidden" id="id" th:field="*{id}">
+    </fieldset>
+    <input type="submit" th:value="Отредактировать"/>
+</form>
+<br>
+<hr>
+<a href="/meals">К списку записей</a>
+</body>
+</html>

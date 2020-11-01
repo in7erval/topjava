@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Все записи</title>
+    <style>
+        .button {
+            font: bold 11px Arial;
+            text-decoration: none;
+            background-color: #EEEEEE;
+            color: #333333;
+            padding: 2px 6px 2px 6px;
+            border-top: 1px solid #CCCCCC;
+            border-right: 1px solid #333333;
+            border-bottom: 1px solid #333333;
+            border-left: 1px solid #CCCCCC;
+        }
+
+        .button1 {
+            font: bold 13px Tahoma;
+            text-decoration: none;
+            background-color: #EEEEEE;
+            color: #333333;
+            padding: 4px 8px 4px 8px;
+            margin: 10px 10px 10px 10px;
+            border-top: 2px solid #CCCCCC;
+            border-right: 2px solid #333333;
+            border-bottom: 2px solid #333333;
+            border-left: 2px solid #CCCCCC;
+        }
+    </style>
+</head>
+<body>
+<h1>Все записи</h1>
+<div>
+    <form th:action="@{/meals/filter}" th:method="POST" th:object="${filterObject}">
+        <fieldset>
+            <h2>Фильтрация</h2>
+            <label for="fromDate">От даты (включая):</label>
+            <input id="fromDate" style="margin-left: 50px; margin-bottom: 10px;" th:field="*{fromDate}" type="date"/>
+            <label for="toDate">До даты (включая):</label>
+            <input id="toDate" style="margin-left: 50px; margin-bottom: 10px;" th:field="*{toDate}" type="date"/>
+            <br>
+            <label for="fromTime">От времени (включая):</label>
+            <input id="fromTime" style="margin-left: 50px; margin-bottom: 10px;" th:field="*{fromTime}" type="time"/>
+            <label for="toTime">До времени (включая):</label>
+            <input id="toTime" style="margin-left: 50px; margin-bottom: 10px;" th:field="*{toTime}" type="time"/>
+            <br>
+            <input class="button" th:value="Отфильтровать" type="submit"/>
+            <a class="button" th:href="@{/meals/filter/reset}">Отменить</a>
+        </fieldset>
+    </form>
+</div>
+<br>
+<table border="1" cellpadding="10">
+    <tr style="text-align:center;">
+        <td th:if="${registeredUser.isAdmin()}">Id</td>
+        <td th:if="${filterObject.isIndexAll() == true}">Электронная почта</td>
+        <td><b>Дата</b></td>
+        <td><b>Описание</b></td>
+        <td><b>Калории</b></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <div th:each="meal : ${meals}">
+        <tr th:style="*{meal.isExcess()} ? 'color:red;' : 'color:green;'">
+            <td th:if="${registeredUser.isAdmin()}" th:text="${meal.getId()}"/>
+            <td th:if="${filterObject.isIndexAll() == true}" th:text="${userDAO.getById(meal.getUserId()).getEmail()}"/>
+            <td th:text="${meal.getDateTime().format(formatter)}"/>
+            <td th:text="${meal.getDescription()}"/>
+            <td th:text="${meal.getCalories()}"/>
+            <td><a th:href="@{/meals/delete?id={id}(id=${meal.getId()})}" th:text="'delete'"/></td>
+            <td><a th:href="@{/meals/edit?id={id}(id=${meal.getId()})}" th:text="'update'"/></td>
+        </tr>
+    </div>
+    <tr style="text-align: center;" th:if="${meals.size()} == 0">
+        <td colspan="5">
+            Записей нет
+        </td>
+    </tr>
+</table>
+<br>
+<div th:if="${registeredUser.isAdmin()}">
+    <a class="button1" th:href="@{/meals/all}" th:if="${filterObject.isIndexAll() == false}">Показать записи всех
+        пользователей</a>
+    <a class="button1" th:href="@{/meals/all/reset}" th:if="${filterObject.isIndexAll() == true}">Скрыть записи всех
+        пользователей</a>
+</div>
+<br>
+<hr>
+<a class="button1" href="/meals/add">Добавить новую запись</a>
+<a class="button1" th:href="@{/user/list}" th:if="${registeredUser.isAdmin()}">К списку всех пользователей</a>
+<br><br>
+<a class="button1" href="/user">Профиль</a>
+<a class="button1" href="/">Logout</a>
+</div>
+</body>
+</html>

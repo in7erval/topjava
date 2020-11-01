@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Регистрация</title>
+</head>
+<body>
+<h2>Выберите пользователя:</h2>
+<form th:action="@{/}" th:method="POST" th:object="${userForm}">
+    <p><select required size="3" th:field="*{id}">
+        <option name="id" th:each="user : ${users}" th:text="${user.getEmail()}" th:value="${user.getId()}"/>
+    </select></p>
+    <p><input type="submit" value="Выбрать"></p>
+</form>
+<a th:href="@{/topjava/meals}" th:text="Список записей"/>
+</body>
+</html>

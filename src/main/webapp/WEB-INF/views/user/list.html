@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Все пользователи</title>
+</head>
+<body>
+<h1>Список всех пользователей</h1>
+<table border="1" cellpadding="10">
+    <tr style="text-align:center;">
+        <td>Имя</td>
+        <td>Электронная почта</td>
+        <td>Пароль</td>
+        <td>Дата регистрации</td>
+        <td></td>
+    </tr>
+    <tr th:each="user : ${users}">
+        <td th:text="${user.getName()}"/>
+        <td th:text="${user.getEmail()}"/>
+        <td th:text="${user.getPassword()}"/>
+        <td th:text="${user.getRegisterDate()}"/>
+        <td><a th:if="${user.isAdmin()} == false" th:href="@{/user/delete?id={id}(id=${user.getId()})}">Delete</a></td>
+    </tr>
+</table>
+<br>
+<hr>
+<a th:href="@{/meals}">Вернуться к списку записей</a>
+</body>
+</html>
